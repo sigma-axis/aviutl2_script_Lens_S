@@ -2,7 +2,7 @@
 
 オブジェクトの背景をレンズのように歪めて透過させたり，一部分を磨りガラスのように背景をぼかして映したりできるスクリプトです．
 
-[ダウンロードはこちら．](https://github.com/sigma-axis/aviutl2_script_Lens_S/releases) \[紹介動画．\](https://www.nicovideo.jp/watch/sm****)
+[ダウンロードはこちら．](https://github.com/sigma-axis/aviutl2_script_Lens_S/releases) [紹介動画．](https://www.nicovideo.jp/watch/sm46811531)
 
 次のフィルタ効果が追加されます:
 
@@ -25,7 +25,7 @@
 
 このスクリプトを使った動画などでは，ニコニコの親作品にこのスクリプトの紹介動画を登録してくれると嬉しいです．任意ではありますが，登録してくれたほうが励みになります．
 
-- 登録 ID: `sm****`
+- 登録 ID: `sm46811531`
 
 ##  動作要件
 
@@ -593,7 +593,7 @@ Although, usage documentations for this script in languages other than Japanese 
 
 ##  改版履歴
 
-- **v1.00** (2026-??-??)
+- **v1.00** (2026-09-17)
 
   - 初版．
 

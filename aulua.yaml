@@ -11,7 +11,7 @@ project:
 package:
   id: Lens_S
   name: レンズ・アクリル効果スクリプト Lens_S
-  version: v0.993-rc
+  version: v1.00
   information: "{name} {version} by {AUTHOR}"
   script_sub_dir: ""
   uninstall_sub_folder_file: false
@@ -25,11 +25,11 @@ package:
       https://github.com/sigma-axis/aviutl2_script_Lens_S
 
       紹介動画:
-      https://www.nicovideo.jp/watch/sm****
+      https://www.nicovideo.jp/watch/sm46811531
 
       お願い:
       ニコニコ動画での親作品登録をしていただけると励みになります．
-      作品 ID: sm****
+      作品 ID: sm46811531
 
   assets:
     - src: README.md
