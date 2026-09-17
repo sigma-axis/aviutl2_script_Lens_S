@@ -1,0 +1,10 @@
+; Tooltip definitions
+;===============================================================
+; Target: Lens_S (https://github.com/sigma-axis/aviutl2_script_Lens_S)
+; Target Version: ${ver}
+; Language: Default
+
+[Language]
+Information=Default tooltips for Lens_S ${ver} (日本語)
+
+;===============================================================
