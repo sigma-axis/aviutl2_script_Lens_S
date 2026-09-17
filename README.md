@@ -2,20 +2,23 @@
 
 オブジェクトの背景をレンズのように歪めて透過させたり，一部分を磨りガラスのように背景をぼかして映したりできるスクリプトです．
 
-[ダウンロードはこちら．](https://github.com/sigma-axis/aviutl2_script_Lens_S/releases) [紹介動画．](https://www.nicovideo.jp/watch/sm****)
+[ダウンロードはこちら．](https://github.com/sigma-axis/aviutl2_script_Lens_S/releases) \[紹介動画．\](https://www.nicovideo.jp/watch/sm****)
 
 次のフィルタ効果が追加されます:
 
 1.  [アクリルσ](#アクリルσ)
 1.  [レンズσ](#レンズσ)
 
-TODO: images.
+![レンズσとアクリルσのデモ](https://github.com/user-attachments/assets/6016b8bf-c5ce-490f-a810-72a9126b9ecc)
+
+![レンズσのデモ](https://github.com/user-attachments/assets/4e423f21-4ece-4955-b926-eba17cc8ed0e)
+![アクリルσのデモ](https://github.com/user-attachments/assets/1481730c-0b80-49e7-adb1-4dfc5b921bfe)
 
 - <details>
   <summary>元画像出典 (クリックで表示):</summary>
 
-  <!-- 1.  https:...
-  1.  https:... -->
+  1.  https://www.pexels.com/photo/scenic-view-of-lake-against-sky-during-sunset-258136
+  1.  https://www.pexels.com/photo/kitchen-island-and-barstools-534151
   </details>
 
 ##  お願い
@@ -56,7 +59,7 @@ Although, usage documentations for this script in languages other than Japanese 
 
 オブジェクトの半透明部分を，磨りガラスのように背景をぼかして透過しているような見た目にします．
 
-TODO: image.
+![アクリルσのデモ](https://github.com/user-attachments/assets/1481730c-0b80-49e7-adb1-4dfc5b921bfe)
 
 ### アクリルσのパラメタ
 
@@ -64,7 +67,7 @@ TODO: image.
 
 アクリル背景にする部分の透明度と色を指定します．
 
-TODO: image. (元画像は α=50% の背景に α=100% と α=75% の描画物，基準透明度を 0%, 50%, 100% で比較)
+![基準透明度の適用例](https://github.com/user-attachments/assets/2c8b435a-9767-4c97-b541-046d19335bad)
 
 - **基準透明度**
 
@@ -92,7 +95,7 @@ TODO: image. (元画像は α=50% の背景に α=100% と α=75% の描画物�
   - アクリル背景にしたい部分が単色の場合に指定すると，フリンジが抑えられます．
   - 指定した場合でも，指定色以外の色の半透明部分にはフリンジが発生することがあります．
 
-    TODO: example image.
+  ![基準色の適用例](https://github.com/user-attachments/assets/bfc5363e-28d4-4de4-86a9-5b8a3fe71991)
 
   初期値は `未指定`.
 
@@ -209,7 +212,7 @@ TODO: image. (元画像は α=50% の背景に α=100% と α=75% の描画物�
 
 この場合アクリル部分も半透明になり，背景の一部分が透けてそのまま表示されてしまうことがあります．不透明な背景色で覆うことで隠す目的で指定します．
 
-TODO: image.
+![背景色の適用例](https://github.com/user-attachments/assets/d03c88fc-026c-4a3f-92be-c2a9f5425d4a)
 
 初期値は `未指定`.
 
@@ -245,7 +248,7 @@ TODO: image.
 
 オブジェクトの色や形状から曲面を生成し，ガラス塊がレンズ屈折しているように背景を合成します．
 
-TODO: image.
+![レンズσのデモ](https://github.com/user-attachments/assets/4e423f21-4ece-4955-b926-eba17cc8ed0e)
 
 ### レンズσのパラメタ
 
@@ -259,7 +262,7 @@ TODO: image.
 
 - **輝度補正**
 
-  最小値は -10最大値は max, 初期値は 0.
+  最小値は -100, 最大値は 100, 初期値は 0.
 
 - **透過彩度**
 
@@ -381,7 +384,7 @@ TODO: image.
 
 屈折や反射，ハイライトなどの計算は，そのままだとジャギーになっているため，滑らかにするための処理が必要です．その際に利用するぼかし処理の強さを調整します．形状がギザギザしている場合に大きくしてみてください．
 
-TODO: image of jaggy lens and smooth one.
+![平滑化が0と十分大きい場合の例](https://github.com/user-attachments/assets/b599e4fa-f308-4485-8fd3-942892f587e2)
 
 また，レンズ形状の “峰” や “谷” を滑らかにする効果もあります．
 
