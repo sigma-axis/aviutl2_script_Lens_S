@@ -9,7 +9,7 @@
 1.  [アクリルσ](#アクリルσ)
 1.  [レンズσ](#レンズσ)
 
-![レンズσとアクリルσのデモ](https://github.com/user-attachments/assets/6016b8bf-c5ce-490f-a810-72a9126b9ecc)
+![レンズσとアクリルσのデモ](https://github.com/user-attachments/assets/658e9aa8-506a-4996-b978-81aa32a82a26)
 
 ![レンズσのデモ](https://github.com/user-attachments/assets/4e423f21-4ece-4955-b926-eba17cc8ed0e)
 ![アクリルσのデモ](https://github.com/user-attachments/assets/1481730c-0b80-49e7-adb1-4dfc5b921bfe)
@@ -95,7 +95,7 @@ Although, usage documentations for this script in languages other than Japanese 
   - アクリル背景にしたい部分が単色の場合に指定すると，フリンジが抑えられます．
   - 指定した場合でも，指定色以外の色の半透明部分にはフリンジが発生することがあります．
 
-  ![基準色の適用例](https://github.com/user-attachments/assets/bfc5363e-28d4-4de4-86a9-5b8a3fe71991)
+  ![基準色の適用例](https://github.com/user-attachments/assets/05f9328d-df01-4f96-bf7e-693bebbabc0d)
 
   初期値は `未指定`.
 
