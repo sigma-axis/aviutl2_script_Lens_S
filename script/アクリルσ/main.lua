@@ -105,7 +105,7 @@ local PI = {}
 ---$include "../ibukihash.hlsl"
 ---$include "combine.hlsl"
 ]]
-local obj, math, tonumber, unpack = obj, math, tonumber, unpack;
+local obj, math, tonumber = obj, math, tonumber;
 local lens_s = require("Lens_S")
 
 if obj.getoption("gui") then
