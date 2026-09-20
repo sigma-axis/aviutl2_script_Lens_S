@@ -61,35 +61,35 @@ void calc_lens(uint2 id : SV_DispatchThreadID)
 	const float2 slope = grad_height(p.xy, p.zw, luma, d_luma, ht);
 	ht += lift;
 
-	const float t2 = dot(slope, slope), t = sqrt(t2), c = 1 / sqrt(1 + t2);
-	const float2 ht_dir = (ht_adj_factor * ht) * (t > 0 ? slope / t : 0);
+	const float t2_i = dot(slope, slope), t_i = sqrt(t2_i), c_i = 1 / sqrt(1 + t2_i);
+	const float2 ht_dir = (ht_adj_factor * ht) * (t_i > 0 ? slope / t_i : 0);
 
 	// refraction.
-	float t_r = t2 / (1 + t2); // sin^2(a_i)
-	t_r /= refr_idx * refr_idx; // sin^2(a_t)
-	const float c_r = sqrt(1 - t_r); // cos(a_t)
-	t_r = sqrt(t_r / (1 - t_r)); // tan(a_t)
-	t_r = (t - t_r) / (1 + t * t_r); // tan(a_i - a_t)
+	float t_t = t2_i / (1 + t2_i); // sin^2(a_i)
+	t_t /= refr_idx * refr_idx; // sin^2(a_t)
+	const float c_t = sqrt(1 - t_t); // cos(a_t)
+	t_t = sqrt(t_t / (1 - t_t)); // tan(a_t)
+	t_t = (t_i - t_t) / (1 + t_i * t_t); // tan(a_i - a_t)
 
 	// reflection.
-	const bool has_reflect = t2 > 1;
-	const float t_l = has_reflect ? max(2 * t / (1 - t2), -2) : 0; // tan(2 a_i)
+	const bool has_reflect = t2_i > 1;
+	const float t_r = has_reflect ? max(2 * t_i / (1 - t2_i), -2) : 0; // tan(2 a_i)
 
 	// reflection coefficient by Fresnel equations.
 	float refl_cff; {
 		const float2 R = {
-			(c - refr_idx * c_r) / (c + refr_idx * c_r),
-			(c_r - refr_idx * c) / (c_r + refr_idx * c)
+			(c_i - refr_idx * c_t) / (c_i + refr_idx * c_t),
+			(c_t - refr_idx * c_i) / (c_t + refr_idx * c_i)
 		};
 		refl_cff = 0.5 * dot(R, R);
 	}
 
 	// highlights. Beckmann distribution.
 	float2 lit = -dot(slope, dir_light) * float2(1, -1);
-	lit = 0.5 * c * (sqrt(3) + lit);
+	lit = 0.5 * c_i * (sqrt(3) + lit);
 	lit = lit > 0 ? 1 / (lit * lit) : 0;
 	lit = lit * lit * exp(-refl_power * abs(lit - 1));
 
-	pos_map[id] = 512.0 * float4(t_r * ht_dir, refl_cff, 1);
-	lit_map[id] = 512.0 * float4(t_l * ht_dir, lit.x - lit.y, has_reflect ? 1 : 0);
+	pos_map[id] = 512.0 * float4(t_t * ht_dir, refl_cff, 1);
+	lit_map[id] = 512.0 * float4(t_r * ht_dir, lit.x - lit.y, has_reflect ? 1 : 0);
 }
