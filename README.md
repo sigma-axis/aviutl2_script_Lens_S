@@ -188,7 +188,7 @@ Although, usage documentations for this script in languages other than Japanese 
 
   最小値は 100, 最大値は 6400, 初期値は 100.
 
-####  移動X / 移動Y / 拡大率 / 回転
+####  移動X / 移動Y / 拡大率 / 回転 / 画面基準で配置
 
 透過した背景に対して，平行移動 / 拡大縮小 / 回転を設定できます．
 
@@ -211,6 +211,15 @@ Although, usage documentations for this script in languages other than Japanese 
   回転角度を度数法で指定します．
 
   最小値は -1440, 最大値は 1440, 初期値は 0.
+
+- **画面基準で配置**
+
+  上記の各種操作の基準点 (アンカーの初期位置) を変更します．
+  
+  - OFF の場合は，オブジェクトの回転中心．
+  - ON の場合は，画面の中央．
+
+  初期値は OFF.
 
 ####  背景色
 
@@ -246,6 +255,7 @@ Although, usage documentations for this script in languages other than Japanese 
   move_y = num,           -- number 型で "移動Y" の項目を上書き，または nil.
   scale = num,            -- number 型で "拡大率" の項目を上書き，または nil.
   rotate = num,           -- number 型で "回転" の項目を上書き，または nil.
+  anchor_screen = bool    -- boolean 型で "画面基準で配置" を上書き，または nil. 0 を false, 0 以外を true として number 型も可能．
   back_color = num_false, -- number 型で "背景色" の項目を上書き，false で未指定，または nil.
 }
 ```
@@ -498,9 +508,9 @@ Although, usage documentations for this script in languages other than Japanese 
 
   最小値は 100, 最大値は 6400, 初期値は 100.
 
-####  移動X / 移動Y / 拡大率 / 回転
+####  移動X / 移動Y / 拡大率 / 回転 / 画面基準で配置
 
-[「アクリルσ」の対応する設定項目](#移動x--移動y--拡大率--回転)と同等です．
+[「アクリルσ」の対応する設定項目](#移動x--移動y--拡大率--回転--画面基準で配置)と同等です．
 
 - **移動X/Y**
 
@@ -513,6 +523,10 @@ Although, usage documentations for this script in languages other than Japanese 
 - **回転**
 
   最小値は -1440, 最大値は 1440, 初期値は 0.
+
+- **画面基準で配置**
+
+  初期値は OFF.
 
 ####  背景色
 
@@ -574,6 +588,7 @@ Although, usage documentations for this script in languages other than Japanese 
   move_y = num,           -- number 型で "移動Y" の項目を上書き，または nil.
   scale = num,            -- number 型で "拡大率" の項目を上書き，または nil.
   rotate = num,           -- number 型で "回転" の項目を上書き，または nil.
+  anchor_screen = bool    -- boolean 型で "画面基準で配置" を上書き，または nil. 0 を false, 0 以外を true として number 型も可能．
   back_color = num_false, -- number 型で "背景色" の項目を上書き，false で未指定，または nil.
   chrm_abrr_order = str,  -- string 型で "色収差順序" の項目を上書き，または nil.
 }
@@ -618,6 +633,7 @@ Although, usage documentations for this script in languages other than Japanese 
   - 入れ子のグループ制御にも対応．
   - ノイズの設定で「ドットサイズ」を追加．
   - 「レンズσ」で「形状可視化」の機能を追加．
+  - 「画面基準で配置」の設定項目を追加．背景の平行移動・拡縮回転の基準点をオブジェクトの回転中心から画面の中央に変更できるように．
   - 反射・屈折の光量割合の計算式を変更．屈折率が 1.0 付近での見え方が，物理学的に近いものに．
   - X軸方向の拡大率を変更しているとき，グループ制御内で背景画像が正しく映らなかったのを修正．
 

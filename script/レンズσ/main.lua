@@ -216,10 +216,12 @@ local lens_s = require("Lens_S");
 if obj.getoption("gui") then
 	if anchor_screen then
 		obj.setanchor("move_x,move_y", 0, "line", "screen");
+		obj.setanchor({ 0, 0, move_x, move_y }, 2, "line", "screen", "color", 0x30d030);
 	else
 		local cx, cy, _ = obj.getvalue("center");
 		cx, cy = cx + obj.cx, cy + obj.cy;
 		obj.setanchor("move_x,move_y", 0, "line", "offset", cx, cy);
+		obj.setanchor({ 0, 0, move_x, move_y }, 2, "line", "offset", cx, cy, "color", 0x30d030);
 	end
 else visualize_shape = false end
 
