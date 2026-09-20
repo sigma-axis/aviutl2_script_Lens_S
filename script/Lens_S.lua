@@ -301,11 +301,12 @@ end
 ---@param move_y number 背景の平行移動量．オブジェクト座標でのピクセル単位．
 ---@param scale number 背景の拡大率．1.0 で等倍．中心は回転中心．
 ---@param rotate number 背景の回転角．ラジアン単位．中心は回転中心．
+---@param anchor_screen boolean 背景の平行移動拡縮回転の起点を，オブジェクトの回転中心ではなく，画面の中央にするかどうか．
 ---@param billboard 0|1|2|3|nil `obj.getoption("billboard")` の戻り値．省略時は `cam` を含めて現在の状態を取得する．0: 向かない, 1: 横方向のみ, 2: 縦横方向のみ, 3: 向く．カメラ制御下でない場合は `0` を指定すること．
 ---@param cam camera_transform? `transform.camera_param()` の戻り値．省略時はカメラ制御下ではないものとして計算をする．`billboard` の省略時は無視される．
 local function clip_framebuffer(buff_target, w, h,
 	back_col_r, back_col_g, back_col_b, back_col_a,
-	move_x, move_y, scale, rotate, billboard, cam)
+	move_x, move_y, scale, rotate, anchor_screen, billboard, cam)
 	-- complete optional parameters.
 	if billboard == nil then
 		billboard, cam = 0, nil;
@@ -344,11 +345,18 @@ local function clip_framebuffer(buff_target, w, h,
 
 	-- extra transform.
 	if not (move_x == 0 and move_y == 0 and scale == 1 and rotate == 0) then
+		local scr_cx, scr_cy, anch_x, anch_y;
+
 		-- calculate the destinations of the center and the anchor.
-		local x, y, z = mat3x3_mul_col_vec(M, w / 2 + cx, h / 2 + cy, 1);
-		local scr_cx, scr_cy = x / z, y / z;
-		x, y, z = mat3x3_mul_col_vec(M, w / 2 + cx + move_x, h / 2 + cy + move_y, 1);
-		local anch_x, anch_y = x / z, y / z;
+		if anchor_screen then
+			scr_cx, scr_cy = 0, 0;
+			anch_x, anch_y = move_x, move_y;
+		else
+			local x, y, z = mat3x3_mul_col_vec(M, w / 2 + cx, h / 2 + cy, 1);
+			scr_cx, scr_cy = x / z, y / z;
+			x, y, z = mat3x3_mul_col_vec(M, w / 2 + cx + move_x, h / 2 + cy + move_y, 1);
+			anch_x, anch_y = x / z, y / z;
+		end
 
 		-- append transform.
 		local c, s = math_cos(-rotate) / scale, math_sin(-rotate) / scale;
@@ -403,6 +411,7 @@ end
 ---@param move_y number 移動Y，nan, infty 以外．
 ---@param scale number 拡大率，0.01 -- 100. 1.0 で等倍．
 ---@param rotate number 回転，nan, infty 以外．ラジアン単位．
+---@param anchor_screen boolean 画面基準で配置．
 ---@param back_color integer|nil 背景色．
 local function apply_acryl(
 	base_alpha, base_color,
@@ -411,7 +420,7 @@ local function apply_acryl(
 	blur_x, blur_y, blur_luma_weight,
 	noise_intensity, noise_seed, noise_size,
 	move_x, move_y, scale, rotate,
-	back_color)
+	anchor_screen, back_color)
 	-- further calculations.
 	add_luma = add_luma + (1 - mul_luma) / 2;
 	local blur_xi, blur_yi = math_ceil(blur_x), math_ceil(blur_y);
@@ -435,7 +444,7 @@ local function apply_acryl(
 	clip_framebuffer((blur_x > 0 or blur_y > 0) and "object" or cache_name_back,
 		w + 2 * blur_xi, h + 2 * blur_yi,
 		back_col_r, back_col_g, back_col_b, back_col_a,
-		move_x, move_y, scale, rotate);
+		move_x, move_y, scale, rotate, anchor_screen);
 
 	-- apply blur to the background.
 	if blur_x > 0 or blur_y > 0 then
@@ -638,7 +647,7 @@ local function apply_lens(
 	clip_framebuffer((blur_x > 0 or blur_y > 0) and "object" or cache_name_back,
 		w + 2 * (blur_xi + margin), h + 2 * (blur_yi + margin),
 		back_col_r, back_col_g, back_col_b, back_col_a,
-		move_x, move_y, scale, rotate, billboard, cam);
+		move_x, move_y, scale, rotate, false, billboard, cam);
 
 	-- apply blur to the background.
 	if blur_x > 0 or blur_y > 0 then
