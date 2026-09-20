@@ -11,7 +11,7 @@ project:
 package:
   id: Lens_S
   name: レンズ・アクリル効果スクリプト Lens_S
-  version: v1.01-wip
+  version: v1.10-wip
   information: "{name} {version} by {AUTHOR}"
   script_sub_dir: ""
   uninstall_sub_folder_file: false
