@@ -4,7 +4,7 @@ cbuffer constant0 : register(b0) {
 	float4 base_color; float base_alpha;
 	float3 tint_color; float tint_luma, tint_chroma;
 	float mul_luma, mul_chroma, add_luma;
-	float noise_intensity, noise_seed;
+	float noise_intensity, noise_seed, inv_noise_size;
 	float2 noise_offset;
 };
 static const float2 V01 = { 0, 1 };
@@ -26,7 +26,9 @@ static const float3x3
 float4 combine(float4 pos : SV_Position) : SV_Target
 {
 	float4 c = src[pos.xy], b = back[pos.xy];
-	const float noise = noise_intensity * (ibuki(float4(pos.xy - noise_offset + ((1 << 16) - 0.5), noise_seed, 7)) - 0.5);
+	const float noise = noise_intensity * (ibuki(float4(
+		inv_noise_size * (pos.xy - noise_offset) + ((1 << 16) - 0.5),
+		noise_seed, 7)) - 0.5);
 
 	b.rgb = mul(mat_back, b.rgb) + add_luma * b.a;
 	b.rgb += mul(mat_tint, tint_color * b.a - b.rgb) + noise * b.a;

@@ -55,6 +55,9 @@ local noise_intensity = 4
 ---$track:noise::シード, min = -65536, max = 65535, step = 1
 local noise_seed = 10000
 
+---$track:noise::ドットサイズ, min = 100, max = 6400, step = 0.01, scale = 0.0625
+local noise_size = 100
+
 --group:背景配置,false
 ---$track:移動X, min = -4000, max = 4000, step = 0.01
 local move_x = 0
@@ -89,6 +92,7 @@ local back_color = nil
 ---     :  blur_luma_weight: number?,
 ---     :  noise_intensity: number?,
 ---     :  noise_seed: number?,
+---     :  noise_size: number?,
 ---     :  move_x: number?,
 ---     :  move_y: number?,
 ---     :  scale: number?,
@@ -128,6 +132,7 @@ blur_aspect = tonumber(PI.blur_aspect) or blur_aspect;
 blur_luma_weight = tonumber(PI.blur_luma_weight) or blur_luma_weight;
 noise_intensity = tonumber(PI.noise_intensity) or noise_intensity;
 noise_seed = tonumber(PI.noise_seed) or noise_seed;
+noise_size = tonumber(PI.noise_size) or noise_size;
 move_x = tonumber(PI.move_x) or move_x;
 move_y = tonumber(PI.move_y) or move_y;
 scale = tonumber(PI.scale) or scale;
@@ -154,6 +159,7 @@ if noise_seed >= 0 then
 		+ 54321 * (obj.index % 2 ^ 20);
 end
 noise_seed = noise_seed % 2 ^ 20;
+noise_size = math.max(noise_size / 100, 1);
 scale = math.min(math.max(scale / 100, 0.01), 100);
 rotate = 2 * math.pi * ((rotate / 360) % 1);
 
@@ -163,6 +169,6 @@ lens_s.effect.acryl(
 	mul_luma, add_luma, mul_chroma,
 	tint_color, tint_luma, tint_chroma,
 	blur * math.min(1 + blur_aspect, 1), blur * math.min(1 - blur_aspect, 1), blur_luma_weight,
-	noise_intensity, noise_seed,
+	noise_intensity, noise_seed, noise_size,
 	move_x, move_y, scale, rotate,
 	back_color);

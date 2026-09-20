@@ -9,7 +9,7 @@ cbuffer constant0 : register(b0) {
 	float refl_power; float2 refl_light;
 	float mul_luma, add_luma, mul_chroma;
 	float face_luma, face_chroma;
-	float noise_intensity, noise_seed;
+	float noise_intensity, noise_seed, inv_noise_size;
 	float2 noise_offset;
 };
 static const uint2 size_back = uint2(size_f + 2 * back_margin);
@@ -41,7 +41,9 @@ float4 combine(float4 pos : SV_Position) : SV_Target
 	float2 lit = max(sign(l.z) * pow(abs(refl_power / pi * l.z), 1 / 2.2) * float2(1, -1), 0);
 	const float refr_cff = 1 - p.z,
 		refl_cff = saturate(4 * (l.w - 0.5) + 0.5) * p.z;
-	const float noise = noise_intensity * (ibuki(float4(pos.xy - noise_offset + ((1 << 16) - 0.5), noise_seed, 3)) - 0.5);
+	const float noise = noise_intensity * (ibuki(float4(
+		inv_noise_size * (pos.xy - noise_offset) + ((1 << 16) - 0.5),
+		noise_seed, 3)) - 0.5);
 
 	const float2
 		back_r = back.SampleLevel(smp, (pos.xy + chrm_abrr.r * refr_pos + back_margin) / size_back, 0).ra,

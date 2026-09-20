@@ -163,7 +163,7 @@ Although, usage documentations for this script in languages other than Japanese 
 
   最小値は 0, 最大値は 60, 初期値は 0.
 
-####  ノイズ / シード
+####  ノイズ / シード / ドットサイズ
 
 アクリル部分にノイズを乗せて，ザラザラした質感を表現することができます．
 
@@ -181,6 +181,12 @@ Although, usage documentations for this script in languages other than Japanese 
   - 負だと同じシードなら別オブジェクトでも同じ乱数になります．
 
   最小値は -65536, 最大値は 65535, 初期値は 10000.
+
+- **ドットサイズ**
+
+  ノイズの拡大率を % 単位で指定します．
+
+  最小値は 100, 最大値は 6400, 初期値は 100.
 
 ####  移動X / 移動Y / 拡大率 / 回転
 
@@ -235,6 +241,7 @@ Although, usage documentations for this script in languages other than Japanese 
   blur_luma_weight = num, -- number 型で "blur::光の強さ" の項目を上書き，または nil.
   noise_intensity = num,  -- number 型で "noise::ノイズ" の項目を上書き，または nil.
   noise_seed = num,       -- number 型で "noise::シード" の項目を上書き，または nil.
+  noise_size = num,       -- number 型で "noise::ドットサイズ" の項目を上書き，または nil.
   move_x = num,           -- number 型で "移動X" の項目を上書き，または nil.
   move_y = num,           -- number 型で "移動Y" の項目を上書き，または nil.
   scale = num,            -- number 型で "拡大率" の項目を上書き，または nil.
@@ -465,9 +472,9 @@ Although, usage documentations for this script in languages other than Japanese 
 
   最小値は 0, 最大値は 60, 初期値は 0.
 
-####  ノイズ / シード
+####  ノイズ / シード / ドットサイズ
 
-[「アクリルσ」の対応する設定項目](#ノイズ--シード)と類似の設定です．オブジェクト全体にノイズを乗せて，ザラザラした質感を表現することができます．
+[「アクリルσ」の対応する設定項目](#ノイズ--シード--ドットサイズ)と類似の設定です．オブジェクト全体にノイズを乗せて，ザラザラした質感を表現することができます．
 
 - **ノイズ**
 
@@ -476,6 +483,10 @@ Although, usage documentations for this script in languages other than Japanese 
 - **シード**
 
   最小値は -65536, 最大値は 65535, 初期値は 10000.
+
+- **ドットサイズ**
+
+  最小値は 100, 最大値は 6400, 初期値は 100.
 
 ####  移動X / 移動Y / 拡大率 / 回転
 
@@ -548,6 +559,7 @@ Although, usage documentations for this script in languages other than Japanese 
   blur_luma_weight = num, -- number 型で "blur::光の強さ" の項目を上書き，または nil.
   noise_intensity = num,  -- number 型で "noise::ノイズ" の項目を上書き，または nil.
   noise_seed = num,       -- number 型で "noise::シード" の項目を上書き，または nil.
+  noise_size = num,       -- number 型で "noise::ドットサイズ" の項目を上書き，または nil.
   move_x = num,           -- number 型で "移動X" の項目を上書き，または nil.
   move_y = num,           -- number 型で "移動Y" の項目を上書き，または nil.
   scale = num,            -- number 型で "拡大率" の項目を上書き，または nil.
@@ -594,6 +606,7 @@ Although, usage documentations for this script in languages other than Japanese 
 - **v1.01** (2026-??-??)
 
   - 入れ子のグループ制御にも対応．
+  - ノイズの設定で「ドットサイズ」を追加．
   - 反射・屈折の光量割合の計算式を変更．
   - X軸方向の拡大率を変更しているとき，グループ制御内で背景画像が正しく映らなかったのを修正．
 

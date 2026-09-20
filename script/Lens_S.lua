@@ -398,6 +398,7 @@ end
 ---@param blur_luma_weight number 光の強さ，0 -- 60.
 ---@param noise_intensity number ノイズ，0 以上．通常は 0.0 -- 1.0.
 ---@param noise_seed integer シード．0 -- 2^20 - 1. オブジェクトごとの違いなどは考慮しない．
+---@param noise_size number ドットサイズ．1.0 以上．
 ---@param move_x number 移動X，nan, infty 以外．
 ---@param move_y number 移動Y，nan, infty 以外．
 ---@param scale number 拡大率，0.01 -- 100. 1.0 で等倍．
@@ -408,7 +409,7 @@ local function apply_acryl(
 	mul_luma, add_luma, mul_chroma,
 	tint_color, tint_luma, tint_chroma,
 	blur_x, blur_y, blur_luma_weight,
-	noise_intensity, noise_seed,
+	noise_intensity, noise_seed, noise_size,
 	move_x, move_y, scale, rotate,
 	back_color)
 	-- further calculations.
@@ -450,7 +451,7 @@ local function apply_acryl(
 		base_col_r, base_col_g, base_col_b, base_col_a; base_alpha;
 		tint_col_r, tint_col_g, tint_col_b; tint_luma; tint_chroma;
 		mul_luma; mul_chroma; add_luma;
-		noise_intensity; noise_seed; 0;
+		noise_intensity; noise_seed; 1 / noise_size;
 		cx + w / 2, cy + h / 2;
 	});
 end
@@ -482,6 +483,7 @@ end
 ---@param blur_luma_weight number 光の強さ，0 -- 60.
 ---@param noise_intensity number ノイズ，0 以上．通常は 0.0 -- 1.0.
 ---@param noise_seed integer シード．0 -- 2^20 - 1. オブジェクトごとの違いなどは考慮しない．
+---@param noise_size number ドットサイズ．1.0 以上．
 ---@param move_x number 移動X，nan, infty 以外．
 ---@param move_y number 移動Y，nan, infty 以外．
 ---@param scale number 拡大率，0.01 -- 100. 1.0 で等倍．
@@ -494,7 +496,7 @@ local function apply_lens(
 	refr_idx, chrm_abrr,
 	light_angle, refl_power, refl_light, refl_shadow, light_screen,
 	blur_x, blur_y, blur_luma_weight,
-	noise_intensity, noise_seed,
+	noise_intensity, noise_seed, noise_size,
 	move_x, move_y, scale, rotate,
 	back_color, chrm_abrr_order)
 	-- further calculations.
@@ -639,7 +641,7 @@ local function apply_lens(
 		refl_power; refl_light, refl_shadow;
 		mul_luma; add_luma; mul_chroma;
 		face_luma; face_chroma;
-		noise_intensity; noise_seed;
+		noise_intensity; noise_seed; 1/ noise_size;
 		cx + w / 2, cy + h / 2;
 	}, "copy", "clamp");
 end
