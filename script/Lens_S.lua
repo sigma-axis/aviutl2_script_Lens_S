@@ -490,6 +490,7 @@ end
 ---@param rotate number 回転，nan, infty 以外．ラジアン単位．
 ---@param back_color integer|nil 背景色．
 ---@param chrm_abrr_order 0|1|2 色収差順序．0 -> 赤緑青，1 -> 緑青赤，2 -> 青赤緑．
+---@param visualize_shape boolean? 形状可視化．省略時は false 扱い．
 local function apply_lens(
 	mul_luma, add_luma, mul_chroma, face_luma, face_chroma,
 	lift, edge_amplify, edge_round, luma_amplify, luma_round, col_amplify, col_round, col_thresh, smooth,
@@ -498,7 +499,8 @@ local function apply_lens(
 	blur_x, blur_y, blur_luma_weight,
 	noise_intensity, noise_seed, noise_size,
 	move_x, move_y, scale, rotate,
-	back_color, chrm_abrr_order)
+	back_color, chrm_abrr_order,
+	visualize_shape)
 	-- further calculations.
 	add_luma = add_luma + 0.5 - (mul_luma + face_luma) / 2;
 	lift = lift + math_max(-edge_amplify, 0)
@@ -600,6 +602,19 @@ local function apply_lens(
 		});
 	end
 	obj.pixelshader("dist_fin@レンズσ@Lens_S", "object", cache_name_temp2, { w, h });
+
+	-- edit-purpose visualization.
+	if visualize_shape then
+		local ess_lift, ess_height =
+			-math_min(edge_amplify, 0) - math_min(luma_amplify, 0) - math_min(col_amplify, 0),
+			math.abs(edge_amplify) + math.abs(luma_amplify) + math.abs(col_amplify);
+		obj.computeshader("visualize@レンズσ@Lens_S", "object",
+			(luma_round > 0 and luma_amplify ~= 0) and cache_name_back or cache_name_orig, {
+			w, h; 1 / (ess_height + 0.5);
+			ess_lift; edge_amplify; edge_round; luma_amplify; col_amplify; col_round;
+		}, math_ceil(w / 8), math_ceil(h / 8));
+		return;
+	end
 
 	-- make reflect, refract and highlight maps.
 	local ht_adj_factor = math_max(max_height, 0.5);

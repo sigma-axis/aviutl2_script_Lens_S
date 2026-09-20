@@ -68,6 +68,9 @@ local col_thresh = 4
 ---$track:平滑化, min = 0, max = 1000, step = 0.01, scale = 0.2
 local smooth = 100
 
+---$check:形状可視化
+local visualize_shape = false
+
 --group:屈折設定,false
 ---$track:屈折率, min = 100, max = 400, step = 0.01, scale = 0.5
 local refr_idx = 150
@@ -200,6 +203,9 @@ local PI = {}
 ---$include "../ibukihash.hlsl"
 ---$include "combine.hlsl"
 ]]
+--[[computeshader@visualize:
+---$include "visualize.hlsl"
+]]
 local obj, math, tonumber = obj, math, tonumber;
 local lens_s = require("Lens_S");
 
@@ -207,7 +213,9 @@ if obj.getoption("gui") then
 	local cx, cy, _ = obj.getvalue("center");
 	cx, cy = cx + obj.cx, cy + obj.cy;
 	obj.setanchor("move_x,move_y", 0, "line", "offset", cx, cy);
-end
+else visualize_shape = false end
+
+--#region PI / normalize parameters.
 
 -- take parameters.
 mul_luma = tonumber(PI.mul_luma) or mul_luma;
@@ -290,6 +298,8 @@ scale = math.min(math.max(scale / 100, 0.01), 100);
 rotate = 2 * math.pi * ((rotate / 360) % 1);
 chrm_abrr_order = math.min(math.max(math.floor(0.5 + chrm_abrr_order), 0), 2);
 
+--#endregion PI / normalize parameters.
+
 -- pass to core.
 lens_s.effect.lens(
 	mul_luma, add_luma, mul_chroma, face_luma, face_chroma,
@@ -299,4 +309,5 @@ lens_s.effect.lens(
 	blur * math.min(1 + blur_aspect, 1), blur * math.min(1 - blur_aspect, 1), blur_luma_weight,
 	noise_intensity, noise_seed, noise_size,
 	move_x, move_y, scale, rotate,
-	back_color, chrm_abrr_order);
+	back_color, chrm_abrr_order,
+	visualize_shape);
