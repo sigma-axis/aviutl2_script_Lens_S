@@ -4,14 +4,14 @@ project:
     NAME: Lens_S
     AUTHOR: σ軸
     PUBLISH_PAGE: https://github.com/sigma-axis/aviutl2_script_Lens_S
-    LEAST_AVIUTL_VERSION: "2010900"
-    LEAST_AVIUTL_VERSION_STRING: "2.1.9"
+    LEAST_AVIUTL_VERSION: "2011000"
+    LEAST_AVIUTL_VERSION_STRING: "2.1.10"
     LEAST_BASIC_S_VERSION: "2.88"
 
 package:
   id: Lens_S
   name: レンズ・アクリル効果スクリプト Lens_S
-  version: v1.00
+  version: v1.01-wip
   information: "{name} {version} by {AUTHOR}"
   script_sub_dir: ""
   uninstall_sub_folder_file: false

@@ -238,8 +238,9 @@ local transform_camera_param, transform_billboard, transform_object_scene do
 		};
 
 		local tx, ty = ox, oy; ox, oy = 0, 0;
-		local group_layer = obj.getoption("group_info");
-		if group_layer > 0 then
+		for i = 0, obj.layer - 2 do
+			local group_layer = obj.getoption("group_info", i);
+			if group_layer <= 0 then break end
 			local gx, gy, gz =
 				gv(group_layer, "グループ制御", "X") + 0,
 				gv(group_layer, "グループ制御", "Y") + 0,
@@ -263,7 +264,7 @@ local transform_camera_param, transform_billboard, transform_object_scene do
 			ox, oy, oz = mat3x3_mul_col_vec(N,
 				gzm * (ox + tx), gzm * (oy + ty), gzm * oz);
 			tx, ty, oz = gx, gy, oz + gz;
-			sx, sy, sz = gzm * sz, gzm * sy, gzm * sz;
+			sx, sy, sz = gzm * sx, gzm * sy, gzm * sz;
 		end
 
 		if cam ~= nil then
