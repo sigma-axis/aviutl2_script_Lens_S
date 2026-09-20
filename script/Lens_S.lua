@@ -242,14 +242,14 @@ local transform_camera_param, transform_billboard, transform_object_scene do
 			local group_layer = obj.getoption("group_info", i);
 			if group_layer <= 0 then break end
 			local gx, gy, gz =
-				gv(group_layer, "グループ制御", "X") + 0,
-				gv(group_layer, "グループ制御", "Y") + 0,
-				gv(group_layer, "グループ制御", "Z");
+				tonumber(gv(group_layer, "グループ制御", "X")) or 0,
+				tonumber(gv(group_layer, "グループ制御", "Y")) or 0,
+				tonumber(gv(group_layer, "グループ制御", "Z")) or 0;
 			local grx, gry, grz =
-				math_tau * ((gv(group_layer, "グループ制御", "X軸回転") / 360) % 1),
-				math_tau * ((gv(group_layer, "グループ制御", "Y軸回転") / 360) % 1),
-				math_tau * ((gv(group_layer, "グループ制御", "Z軸回転") / 360) % 1);
-			local gzm = gv(group_layer, "グループ制御", "拡大率") / 100;
+				math_tau * (((tonumber(gv(group_layer, "グループ制御", "X軸回転")) or 0) / 360) % 1),
+				math_tau * (((tonumber(gv(group_layer, "グループ制御", "Y軸回転")) or 0) / 360) % 1),
+				math_tau * (((tonumber(gv(group_layer, "グループ制御", "Z軸回転")) or 0) / 360) % 1);
+			local gzm = (tonumber(gv(group_layer, "グループ制御", "拡大率")) or 100) / 100;
 			local grx_c, grx_s, gry_c, gry_s, grz_c, grz_s =
 				math_cos(grx), math_sin(grx),
 				math_cos(gry), math_sin(gry),
@@ -490,7 +490,7 @@ end
 ---@param rotate number 回転，nan, infty 以外．ラジアン単位．
 ---@param back_color integer|nil 背景色．
 ---@param chrm_abrr_order 0|1|2 色収差順序．0 -> 赤緑青，1 -> 緑青赤，2 -> 青赤緑．
----@param visualize_shape boolean? 形状可視化．省略時は false 扱い．
+---@param visualize_shape boolean 形状可視化．
 local function apply_lens(
 	mul_luma, add_luma, mul_chroma, face_luma, face_chroma,
 	lift, edge_amplify, edge_round, luma_amplify, luma_round, col_amplify, col_round, col_thresh, smooth,
