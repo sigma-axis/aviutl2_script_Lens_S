@@ -131,6 +131,9 @@ local scale = 100
 ---$track:回転, min = -1440, max = 1440, step = 0.01, scale = 0.25
 local rotate = 0
 
+---$checksection:画面基準で配置
+local anchor_screen = false
+
 --group:その他,false
 ---$tips:オブジェクトの背景に透明ピクセルがある場合に指定．加工されずに表示されてしまう背景を隠します．
 ---$color:背景色
@@ -179,6 +182,7 @@ local chrm_abrr_order = 0
 ---     :  move_y: number?,
 ---     :  scale: number?,
 ---     :  rotate: number?,
+---     :  anchor_screen: boolean|number|nil,
 ---     :  back_color: number|false|nil,
 ---     :  chrm_abrr_order: string?,
 ---     :}
@@ -210,9 +214,13 @@ local obj, math, tonumber = obj, math, tonumber;
 local lens_s = require("Lens_S");
 
 if obj.getoption("gui") then
-	local cx, cy, _ = obj.getvalue("center");
-	cx, cy = cx + obj.cx, cy + obj.cy;
-	obj.setanchor("move_x,move_y", 0, "line", "offset", cx, cy);
+	if anchor_screen then
+		obj.setanchor("move_x,move_y", 0, "line", "screen");
+	else
+		local cx, cy, _ = obj.getvalue("center");
+		cx, cy = cx + obj.cx, cy + obj.cy;
+		obj.setanchor("move_x,move_y", 0, "line", "offset", cx, cy);
+	end
 else visualize_shape = false end
 
 --#region PI / normalize parameters.
@@ -251,6 +259,7 @@ noise_size = tonumber(PI.noise_size) or noise_size;
 move_y = tonumber(PI.move_y) or move_y;
 scale = tonumber(PI.scale) or scale;
 rotate = tonumber(PI.rotate) or rotate;
+anchor_screen = lens_s.PI.as_bool(PI.anchor_screen, anchor_screen);
 back_color = lens_s.PI.color_opt(PI.back_color, back_color);
 if PI.chrm_abrr_order then
 	local name2num = {
@@ -308,6 +317,6 @@ lens_s.effect.lens(
 	light_angle, refl_power, refl_light, refl_shadow, light_screen,
 	blur * math.min(1 + blur_aspect, 1), blur * math.min(1 - blur_aspect, 1), blur_luma_weight,
 	noise_intensity, noise_seed, noise_size,
-	move_x, move_y, scale, rotate,
+	move_x, move_y, scale, rotate, anchor_screen,
 	back_color, chrm_abrr_order,
 	visualize_shape);

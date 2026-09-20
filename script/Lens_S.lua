@@ -497,6 +497,7 @@ end
 ---@param move_y number 移動Y，nan, infty 以外．
 ---@param scale number 拡大率，0.01 -- 100. 1.0 で等倍．
 ---@param rotate number 回転，nan, infty 以外．ラジアン単位．
+---@param anchor_screen boolean 画面基準で配置．
 ---@param back_color integer|nil 背景色．
 ---@param chrm_abrr_order 0|1|2 色収差順序．0 -> 赤緑青，1 -> 緑青赤，2 -> 青赤緑．
 ---@param visualize_shape boolean 形状可視化．
@@ -507,7 +508,7 @@ local function apply_lens(
 	light_angle, refl_power, refl_light, refl_shadow, light_screen,
 	blur_x, blur_y, blur_luma_weight,
 	noise_intensity, noise_seed, noise_size,
-	move_x, move_y, scale, rotate,
+	move_x, move_y, scale, rotate, anchor_screen,
 	back_color, chrm_abrr_order,
 	visualize_shape)
 	-- further calculations.
@@ -647,7 +648,7 @@ local function apply_lens(
 	clip_framebuffer((blur_x > 0 or blur_y > 0) and "object" or cache_name_back,
 		w + 2 * (blur_xi + margin), h + 2 * (blur_yi + margin),
 		back_col_r, back_col_g, back_col_b, back_col_a,
-		move_x, move_y, scale, rotate, false, billboard, cam);
+		move_x, move_y, scale, rotate, anchor_screen, billboard, cam);
 
 	-- apply blur to the background.
 	if blur_x > 0 or blur_y > 0 then
