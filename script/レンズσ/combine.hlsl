@@ -39,8 +39,8 @@ float4 combine(float4 pos : SV_Position) : SV_Target
 	l.z = p.w > 0 ? l.z / p.w : 0;
 	const float2 refr_pos = ht_adj_factor * p.xy, refl_pos = ht_adj_factor * l.xy;
 	float2 lit = max(sign(l.z) * pow(abs(refl_power / pi * l.z), 1 / 2.2) * float2(1, -1), 0);
-	const float refr_cff = p.z,
-		refl_cff = saturate(4 * (l.w - 0.5) + 0.5) * (1 - refr_cff);
+	const float refr_cff = 1 - p.z,
+		refl_cff = saturate(4 * (l.w - 0.5) + 0.5) * p.z;
 	const float noise = noise_intensity * (ibuki(float4(pos.xy - noise_offset + ((1 << 16) - 0.5), noise_seed, 3)) - 0.5);
 
 	const float2

@@ -8,7 +8,6 @@ cbuffer constant0 : register(b0) {
 	float2 dir_light; float refl_power;
 };
 static const uint2 size = uint2(size_f);
-static const float refr_cff_0 = 1 - (refr_idx - 1) * (refr_idx - 1) / ((refr_idx + 1) * (refr_idx + 1));
 
 float calc_luma(float4 col)
 {
@@ -68,6 +67,7 @@ void calc_lens(uint2 id : SV_DispatchThreadID)
 	// refraction.
 	float t_r = t2 / (1 + t2); // sin^2(a_i)
 	t_r /= refr_idx * refr_idx; // sin^2(a_t)
+	const float c_r = sqrt(1 - t_r); // cos(a_t)
 	t_r = sqrt(t_r / (1 - t_r)); // tan(a_t)
 	t_r = (t - t_r) / (1 + t * t_r); // tan(a_i - a_t)
 
@@ -75,10 +75,14 @@ void calc_lens(uint2 id : SV_DispatchThreadID)
 	const bool has_reflect = t2 > 1;
 	const float t_l = has_reflect ? max(2 * t / (1 - t2), -2) : 0; // tan(2 a_i)
 
-	// refraction coefficient by Schlick's approximation.
-	float refr_cff = 1 - c;
-	refr_cff *= refr_cff; refr_cff *= refr_cff; refr_cff *= 1 - c;
-	refr_cff = refr_cff_0 * (1 - refr_cff);
+	// reflection coefficient by Fresnel equations.
+	float refl_cff; {
+		const float2 R = {
+			(c - refr_idx * c_r) / (c + refr_idx * c_r),
+			(c_r - refr_idx * c) / (c_r + refr_idx * c)
+		};
+		refl_cff = 0.5 * dot(R, R);
+	}
 
 	// highlights. Beckmann distribution.
 	float2 lit = -dot(slope, dir_light) * float2(1, -1);
@@ -86,6 +90,6 @@ void calc_lens(uint2 id : SV_DispatchThreadID)
 	lit = lit > 0 ? 1 / (lit * lit) : 0;
 	lit = lit * lit * exp(-refl_power * abs(lit - 1));
 
-	pos_map[id] = 512.0 * float4(t_r * ht_dir, refr_cff, 1);
+	pos_map[id] = 512.0 * float4(t_r * ht_dir, refl_cff, 1);
 	lit_map[id] = 512.0 * float4(t_l * ht_dir, lit.x - lit.y, has_reflect ? 1 : 0);
 }

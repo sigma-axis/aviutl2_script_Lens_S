@@ -594,6 +594,7 @@ Although, usage documentations for this script in languages other than Japanese 
 - **v1.01** (2026-??-??)
 
   - 入れ子のグループ制御にも対応．
+  - 反射・屈折の光量割合の計算式を変更．
   - X軸方向の拡大率を変更しているとき，グループ制御内で背景画像が正しく映らなかったのを修正．
 
 ##  改版履歴
