@@ -415,7 +415,7 @@ Although, usage documentations for this script in languages other than Japanese 
 
 編集中に，レンズの凹凸の形状を可視化して確認します．レンズとして厚い部分が明るく，薄い部分が暗く表示されます．
 
-![形状可視化のデモ](https://github.com/user-attachments/assets/0443ed47-8451-4849-be47-8ddbc24ace3e)
+![形状可視化のデモ](https://github.com/user-attachments/assets/1611be41-5e0a-42d9-a246-db4c3da29913)
 
 - [「背景距離」](#背景距離)と[「平滑化」](#平滑化)の影響は可視化には反映されません．
 
